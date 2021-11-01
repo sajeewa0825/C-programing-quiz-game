@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\quiz_game.dir/objects.a
+C:\TDM-GCC-64\bin\ar.exe cr CMakeFiles\quiz_game.dir/objects.a @CMakeFiles\quiz_game.dir\objects1.rsp
+C:\TDM-GCC-64\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\quiz_game.dir/objects.a -Wl,--no-whole-archive -o quiz_game.exe -Wl,--out-implib,libquiz_game.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\quiz_game.dir\linklibs.rsp
