@@ -18,7 +18,7 @@ int main() {
     scanf("%s",&selection);
 
     switch (selection) {
-        case 'S':
+        case 's':
             startGame();
             break;
         case 'a':
@@ -35,30 +35,42 @@ int main() {
         default:
             printf("invalid ");
     }
-
     return 0;
 }
 
 int startGame() {
     char qu[100];
     char ans[20];
-    char stop;
+    int number=0,count=0,end;
 
     FILE *file;
     file = fopen("quiz.txt","r");
+
     if (file == NULL){
         printf("file open fail \n");
         exit(0);
     } else{
-        do {
-            fread(&qu ,sizeof(qu),3,file);
-            //scanf(file,"%c\n",qu);
+        printf("how many questions do you need \n");
+        scanf("%d",&number);
+
+        while (count<number ){
+            fgets(qu,sizeof(qu),file);
             printf("%s \n",qu);
-            //stop = getc(file);
-           // printf("%s ",stop);
-        } while ((int) qu == EOF);
+            end = getc(file);
+            if (end == EOF){
+                printf("....end all questions questions..... %d \n",end);
+                break;
+            }
+            count=count+1;
+        }
+
     }
 
+
+
+
+
+    main();
     return 0;
 }
 
@@ -80,5 +92,6 @@ int addQuiz(){
         fprintf(file,"%s %s\n",qu,ans);
     }
     fclose(file);
+    main();
     return 0;
 }
