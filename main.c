@@ -1,17 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 char selection;
 int startGame();
 int addQuiz();
 void addAnswer(char ans[20]);
+int answercheck(char ans [50]);
+int highscore ();
+int highscoreview ();
+
+int mark=0;
+int count=0;
+int number=0;
 
 int main() {
     printf("\n-------------WELCOME TO THE C PROGRAMING GAME-------------\n\n");
     printf("----------------------------------------------------------\n");
     printf("Press S to start game\n");
     printf("Press V to view high score\n");
-    printf("Press A Edit quiz\n");
+    printf("Press A Add quiz\n");
     printf("Press H for help\n");
     printf("Press Q to quit game\n");
     printf("----------------------------------------------------------\n");
@@ -19,19 +27,20 @@ int main() {
     scanf("%s",&selection);
 
     switch (selection) {
-        case 's':
+        case 'S':
             startGame();
             break;
-        case 'a':
+        case 'A':
             addQuiz();
             break;
         case 'V':
-            printf("v \n");
+            highscoreview ();
             break;
         case 'H':
-            printf("h\n");
+            printf("play game and help to improve\n");
+            main();
             break;
-        case 'q':
+        case 'Q':
             exit(0);
         default:
             printf("invalid ");
@@ -42,7 +51,7 @@ int main() {
 int startGame() {
     char qu[100];
     char ans[50];
-    int number=0,count=0,end;
+    int end;
 
     FILE *file;
     file = fopen("quiz.txt","r");
@@ -53,27 +62,27 @@ int startGame() {
     } else{
         printf("how many questions do you need \n");
         scanf("%d",&number);
+        fgets(ans, 50, stdin);
 
-        while (count<number ){
+        for (count=0;count<number;++count){
             fgets(qu,sizeof(qu),file);
             printf("----------------------------------------------------------\n");
             printf("%s",qu);
+            printf("----------------------------\n");
             printf("Enter Answer \n");
-            scanf("%s",&ans);
+            fgets(ans, 50, stdin);
+            answercheck(ans);
             end = getc(file);
             if (end == EOF){
                 printf("....end all questions questions..... %d \n",end);
                 break;
             }
-            count=count+1;
         }
+        highscore ();
+        mark=0;
+        count=0;
 
     }
-
-
-
-
-
     main();
     return 0;
 }
@@ -115,5 +124,69 @@ void addAnswer(char ans[20]) {
     }
     fclose(file);
 
+}
+
+int answercheck(char ans [50]){
+    FILE *file;
+    char answer[50];
+    int value;
+    int co =0;
+
+    file = fopen("ans.txt","r");
+    if(file==NULL){
+        printf("open fail\n");
+        exit(0);
+    } else{
+        for (int i = 0; i < number ; ++i) {
+            fgets(answer,sizeof(answer),file);
+            if (i == count){
+                value = strcmp(answer,ans);
+                if (value == 0){
+                    mark = mark+2;
+                } else{
+                    printf("answer is wrong\n");
+                }
+            }
+        }
+    }
+    fclose(file);
+    printf("---mark is %d--- \n",mark);
+    return 0;
+}
+
+int highscore (){
+    FILE *file;
+    int sco=0;
+    file = fopen("score.txt","r");
+    if(file==NULL){
+        printf("open fail\n");
+        exit(0);
+    } else{
+        fgets((int )sco,sizeof(sco),file);
+        fclose(file);
+        if(sco<mark){
+            file = fopen("score.txt","w");
+            fprintf(file,"%d",mark);
+            fclose(file);
+        }
+    }
+
+    return 0;
+
+}
+
+int highscoreview (){
+    FILE *file;
+    char scor[10];
+    file = fopen("score.txt","r");
+    if(file==NULL){
+        printf("open fail\n");
+        exit(0);
+    } else{
+        fgets(scor,sizeof(scor),file);
+        printf("higher score is %s\n",scor);
+    }
+    fclose(file);
+    main();
 }
 

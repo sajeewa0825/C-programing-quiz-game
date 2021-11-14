@@ -1,1 +1,5 @@
-
+Who is the founder of C language?
+When was C language developed?
+What is the output of the following printf  printf("%d",34+24/12%3*5/2-4);
+scanf("%d",e);
+what is answer printf("%d",2+3);
