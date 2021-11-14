@@ -4,6 +4,7 @@
 char selection;
 int startGame();
 int addQuiz();
+void addAnswer(char ans[20]);
 
 int main() {
     printf("\n-------------WELCOME TO THE C PROGRAMING GAME-------------\n\n");
@@ -40,7 +41,7 @@ int main() {
 
 int startGame() {
     char qu[100];
-    char ans[20];
+    char ans[50];
     int number=0,count=0,end;
 
     FILE *file;
@@ -55,7 +56,10 @@ int startGame() {
 
         while (count<number ){
             fgets(qu,sizeof(qu),file);
-            printf("%s \n",qu);
+            printf("----------------------------------------------------------\n");
+            printf("%s",qu);
+            printf("Enter Answer \n");
+            scanf("%s",&ans);
             end = getc(file);
             if (end == EOF){
                 printf("....end all questions questions..... %d \n",end);
@@ -77,10 +81,11 @@ int startGame() {
 int addQuiz(){
     char qu[100];
     char ans[20];
+    fgets(qu, 100, stdin);
     printf("Enter Questions\n");
-    scanf("%s[^\n]",qu);
+    fgets(qu, 100, stdin);
     printf("Enter Answer\n");
-    scanf("%s[^\n]",ans);
+    fgets(ans, 20, stdin);
 
     FILE *file;
 
@@ -89,9 +94,26 @@ int addQuiz(){
         printf("open fail\n");
         exit(0);
     } else{
-        fprintf(file,"%s %s\n",qu,ans);
+        fprintf(file,"%s",qu);
+        addAnswer(ans);
     }
     fclose(file);
     main();
     return 0;
 }
+
+void addAnswer(char ans[20]) {
+    printf("%s",ans);
+    FILE *file;
+
+    file = fopen("ans.txt","a");
+    if(file==NULL){
+        printf("open fail\n");
+        exit(0);
+    } else{
+        fprintf(file,"%s",ans);
+    }
+    fclose(file);
+
+}
+
